@@ -17,6 +17,16 @@ class PollTest < ActiveSupport::TestCase
     assert_not @poll.valid?
   end
 
+  test "number should be unique within a riding" do
+    poll_with_dup_number = build(:poll, number:@poll.number, riding:@riding)
+    assert_not poll_with_dup_number.valid?
+  end
+
+  test "number outside riding does not need to be unique" do
+    poll_with_dup_number = build(:poll, number:@poll.number)
+    assert poll_with_dup_number.valid?    
+  end
+
   test "belongs to riding" do
     assert_equal @poll.riding, @riding
   end
