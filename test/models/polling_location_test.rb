@@ -26,9 +26,17 @@ class PollingLocationTest < ActiveSupport::TestCase
     assert_not @polling_location.valid?
   end
 
+  test "validates title uniqueness" do
+    assert_not build(:polling_location, title:@polling_location.title).valid?
+  end
+
   test "validates address" do
     @polling_location.address = nil
     assert_not @polling_location.valid?
+  end
+
+  test "validates address uniqueness" do
+    assert_not build(:polling_location, address:@polling_location.address).valid?
   end
 
   test "validates city" do
@@ -36,9 +44,17 @@ class PollingLocationTest < ActiveSupport::TestCase
     assert_not @polling_location.valid?
   end
 
+  test "validates city uniqueness" do
+    assert_not build(:polling_location, city:@polling_location.city).valid?
+  end
+
   test "validates postal code presence" do
     @polling_location.postal_code = nil
     assert_not @polling_location.valid?
+  end
+
+  test "validates postal code uniqueness" do
+    assert_not build(:polling_location, postal_code:@polling_location.postal_code).valid?
   end
 
   test "validates postal code format" do
