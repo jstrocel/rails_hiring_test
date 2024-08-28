@@ -3,7 +3,10 @@
 <h1 class="text-xl font-semibold leading-6 text-gray-900"><%= @riding.name %> - <%= @riding.riding_code %></h1>
 <%= @riding.province %>
 
-
+<div>
+  <%= link_to "Edit This Riding", edit_riding_path(@riding) %> |
+  <%= link_to "Back to ridings", ridings_path %>
+</div>
 <h2 class="mt-4 text-lg font-semibold leading-6 text-gray-900">Polling locations</h2>
 
 <div class="mt-6 p-6 border border-gray-500 rounded-lg grid grid-cols-6 gap-y-2">
@@ -52,4 +55,16 @@
   <% else %>
     <div class="col-span-5 text-center mt-3">No polling locations</div>
   <% end%>
+</div>
+
+
+<% if @polls_without_locations.any? %>
+  <h2 class="mt-4 text-lg font-semibold leading-6 text-gray-900">Polls Without Locations</h2>
+  <div class="mt-6 p-6 border border-gray-500 rounded-lg grid grid-cols-6 gap-y-2">
+    <%= @polls_without_locations.map(&:number).join(", ")  %>
+  </div>
+ <% end %>
+ <div>
+  <%= link_to "Edit This Riding", edit_riding_path(@riding) %> |
+  <%= link_to "Back to ridings", ridings_path %>
 </div>

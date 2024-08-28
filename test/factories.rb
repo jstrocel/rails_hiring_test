@@ -7,9 +7,9 @@ FactoryBot.define do
   end
 
   factory :polling_location do
-    title  { Faker::Lorem.word }
-    address  {Faker::Address.street_address}
-    city  {Faker::Address.city}
+    title  { Faker::Lorem.unique.word }
+    address  {Faker::Address.unique.street_address}
+    city  {Faker::Address.unique.city}
     postal_code {["abceghjklmnprstvxy".split("").sample, rand(9), "abceghjnprstvz".split("").sample, rand(9), "abceghjnprstvz".split("").sample, rand(9)].join}
     riding  
   end

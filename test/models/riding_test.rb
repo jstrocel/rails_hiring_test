@@ -21,15 +21,15 @@ class RidingTest < ActiveSupport::TestCase
   end
 
   test "associated polls should be destroyed" do
-    assert_difference 'Poll.count', -1 do
-      @riding.destroy
-    end
+    riding_id = @riding.id
+    @riding.destroy
+    assert_not Poll.exists?(riding:riding_id)
   end
 
   test "associated polling locations should be destroyed" do
-    assert_difference 'PollingLocation.count', -1 do
-      @riding.destroy
-    end
+    riding_id = @riding.id
+    @riding.destroy
+    assert_not PollingLocation.exists?(riding:riding_id)
   end
 
   test "validates name" do

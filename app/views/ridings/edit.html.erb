@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<h1 class="text-xl font-semibold leading-6 text-gray-900">Editing <%= @riding.name %> - <%= @riding.riding_code %></h1>
+<%= @riding.province %>
+
+<%= render "form", riding: @riding %>
+
+
+
+
+<br>
+
+<div>
+  <%= link_to "Show this riding", @riding %> |
+  <%= link_to "Back to ridings", ridings_path %>
+</div>

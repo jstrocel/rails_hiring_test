@@ -9,6 +9,7 @@ class RidingsController < ApplicationController
   # GET /ridings/1 or /ridings/1.json
   def show
     @polling_locations = @riding.polling_locations
+    @polls_without_locations = @riding.polls.where(polling_location_id:nil)
   end
 
   # GET /ridings/new
@@ -66,6 +67,6 @@ class RidingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def riding_params
-      params.require(:riding).permit(:name, :riding_code, :province)
+      params.require(:riding).permit(:name, :riding_code, :province, polling_locations_attributes: [:id, :title, :address, :city, :_destroy],  polls_attributes: [:id, :number, :polling_location_id, :_destroy])
     end
 end

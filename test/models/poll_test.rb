@@ -39,4 +39,14 @@ class PollTest < ActiveSupport::TestCase
     @poll.polling_location = nil
     assert @poll.valid?
   end
+
+  test "deletes polling location after all other polls are removed" do
+    polling_location = create(:polling_location)
+    polling_location_id = polling_location.id
+    poll = create(:poll,polling_location:polling_location)
+
+    poll.destroy!
+
+    assert_not PollingLocation.exists?(polling_location_id)
+  end
 end

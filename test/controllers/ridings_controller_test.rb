@@ -2,7 +2,7 @@ require "test_helper"
 
 class RidingsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @riding = ridings(:one)
+    @riding = create(:riding)
   end
 
   test "should get index" do
