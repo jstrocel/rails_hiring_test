@@ -11,8 +11,8 @@
   <td>
     <%= f.text_field :postal_code, class:"border rounded" %>
   </td>
-    <td>
-    <%= f.text_field :update_polls, class:"border rounded", value: f.object.polls.map(&:number).join(", ") %>
+  <td>
+     <%= f.object.polls.map(&:number).join(", ") %>
   </td>
   <td>
     <button type="button" data-action="nested-form#remove", class="border rounded">Remove Polling Location</button>

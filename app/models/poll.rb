@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Model for Polls
 class Poll < ApplicationRecord
   belongs_to :riding
   belongs_to :polling_location, optional: true
@@ -9,12 +12,12 @@ class Poll < ApplicationRecord
   after_destroy :destroy_empty_polling_location
 
   def find_polling_location
-    @polling_location = self.polling_location
+    @polling_location = polling_location
   end
 
   def destroy_empty_polling_location
-    if @polling_location.polls.length == 0
-      @polling_location.destroy
-    end  
+    return unless @polling_location.polls.empty?
+
+    @polling_location.destroy
   end
 end

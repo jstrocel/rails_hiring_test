@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Model for Ridings
 class Riding < ApplicationRecord
   has_many :polls, dependent: :destroy
   has_many :polling_locations, dependent: :destroy

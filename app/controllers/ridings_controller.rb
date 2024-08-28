@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# Controller for Ridings. Also edits polling locations and polls
 class RidingsController < ApplicationController
-  before_action :set_riding, only: %i[ show edit update destroy ]
+  before_action :set_riding, only: %i[show edit update destroy]
 
   # GET /ridings or /ridings.json
   def index
@@ -9,7 +12,7 @@ class RidingsController < ApplicationController
   # GET /ridings/1 or /ridings/1.json
   def show
     @polling_locations = @riding.polling_locations
-    @polls_without_locations = @riding.polls.where(polling_location_id:nil)
+    @polls_without_locations = @riding.polls.where(polling_location_id: nil)
   end
 
   # GET /ridings/new
@@ -18,8 +21,7 @@ class RidingsController < ApplicationController
   end
 
   # GET /ridings/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /ridings or /ridings.json
   def create
@@ -27,7 +29,7 @@ class RidingsController < ApplicationController
 
     respond_to do |format|
       if @riding.save
-        format.html { redirect_to riding_url(@riding), notice: "Riding was successfully created." }
+        format.html { redirect_to riding_url(@riding), notice: 'Riding was successfully created.' }
         format.json { render :show, status: :created, location: @riding }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -40,7 +42,7 @@ class RidingsController < ApplicationController
   def update
     respond_to do |format|
       if @riding.update(riding_params)
-        format.html { redirect_to riding_url(@riding), notice: "Riding was successfully updated." }
+        format.html { redirect_to riding_url(@riding), notice: 'Riding was successfully updated.' }
         format.json { render :show, status: :ok, location: @riding }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -54,19 +56,24 @@ class RidingsController < ApplicationController
     @riding.destroy!
 
     respond_to do |format|
-      format.html { redirect_to ridings_url, notice: "Riding was successfully destroyed." }
+      format.html { redirect_to ridings_url, notice: 'Riding was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_riding
-      @riding = Riding.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def riding_params
-      params.require(:riding).permit(:name, :riding_code, :province, polling_locations_attributes: [:id, :title, :address, :city, :_destroy],  polls_attributes: [:id, :number, :polling_location_id, :_destroy])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_riding
+    @riding = Riding.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def riding_params
+    params.require(:riding).permit(:name,
+                                   :riding_code,
+                                   :province,
+                                   polling_locations_attributes: %i[id title address city _destroy],
+                                   polls_attributes: %i[id number polling_location_id _destroy])
+  end
 end
