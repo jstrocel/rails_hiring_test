@@ -1,0 +1,86 @@
+<%= form_with model: riding, class:'text-xl font-semibold leading-6 text-gray-900' do |f| %>
+
+  <% if riding.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(riding.errors.count, "error") %> prohibited this riding from being saved:</h2>
+      <ul>
+        <% riding.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
+    <%= f.label :name %>
+    <%= f.text_field :name, class:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"%>
+    <%= f.label :riding_code %>
+    <%= f.text_field :riding_code, class:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"%>
+    <%= f.label :province %>
+    <%= f.collection_select :province, Riding.distinct.pluck(:province), :to_s, :to_s, prompt:'Select Province' %>
+    <div data-controller="nested-form" data-nested-form-wrapper-selector-value=".polling-location-nested-form-wrapper">
+      <h2 class="mt-4 text-lg font-semibold leading-6 text-gray-900">Polling locations</h2>
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead>
+          <tr>
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Title</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Address</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">City</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Postal Code</th>
+            <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Polls</th>
+          </tr>
+        </thead>
+        <tbody>
+        
+        <template data-nested-form-target="template">
+          <%= f.fields_for :polling_locations, PollingLocation.new, child_index: 'NEW_RECORD' do |polling_location_fields| %>
+            <%= render "ridings/riding_polling_location_form", f: polling_location_fields %>
+          <% end %>
+        </template>
+
+        <%= f.fields_for :polling_locations do |polling_location_fields| %>
+          <%= render "ridings/riding_polling_location_form", f: polling_location_fields %>
+        <% end %>
+        </tbody>
+
+      
+        <tr data-nested-form-target="target">
+          <td>
+            <button type="button" data-action="nested-form#add", class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">Add Polling Location</button>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+    <div data-controller="nested-form" data-nested-form-wrapper-selector-value=".poll-nested-form-wrapper">
+      <h2 class="mt-4 text-lg font-semibold leading-6 text-gray-900">Polls</h2>
+      <table class="min-w-full divide-y divide-gray-300">
+        <thead>
+          <tr>
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Number</th>
+            <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Polling Location</th>
+          </tr>
+        </thead>
+        <tbody>
+        <template data-nested-form-target="template">
+          <%= f.fields_for :polls, Poll.new, child_index: 'NEW_RECORD' do |poll_fields| %>
+            <%= render "ridings/riding_poll_form", f: poll_fields %>
+          <% end %>
+        </template>
+
+        <%= f.fields_for :polls, f.object.polls.order(:polling_location_id) do |poll_fields| %>
+          <%= render "ridings/riding_poll_form", f: poll_fields %>
+        <% end %>
+        </tbody>
+
+      
+        <tr data-nested-form-target="target">
+          <td>
+            <button type="button" data-action="nested-form#add", class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">Add Poll</button>
+          </td>
+        </tr>
+
+      </table>
+    </div>
+
+  <%= f.submit 'Save Riding', class:"shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+<% end %>

@@ -1,0 +1,21 @@
+<tr class="polling-location-nested-form-wrapper" data-new-record="<%= f.object.new_record? %>">
+  <td>
+    <%= f.text_field :title, class:"border rounded" %>
+  </td>
+  <td>
+    <%= f.text_field :address, class:"border rounded" %>
+  </td>
+  <td>
+    <%= f.text_field :city, class:"border rounded" %>
+  </td>
+  <td>
+    <%= f.text_field :postal_code, class:"border rounded" %>
+  </td>
+  <td>
+     <%= f.object.polls.map(&:number).join(", ") %>
+  </td>
+  <td>
+    <button type="button" data-action="nested-form#remove", class="border rounded">Remove Polling Location</button>
+    <%= f.hidden_field :_destroy %>
+  </td>
+</tr>

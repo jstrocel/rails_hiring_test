@@ -1,0 +1,13 @@
+<tr class="poll-nested-form-wrapper" data-new-record="<%= f.object.new_record? %>">
+  <td>
+    <%= f.text_field :number, class:"border rounded" %>
+  </td>
+  <td>
+    <%= f.collection_select :polling_location_id, @riding.polling_locations.order(:title), :id, :title, prompt:'Select Polling Location' %>
+  </td>
+  
+  <td>
+    <button type="button" data-action="nested-form#remove", class="border rounded">Remove Poll</button>
+    <%= f.hidden_field :_destroy %>
+  </td>
+</tr>
